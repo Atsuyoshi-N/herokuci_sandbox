@@ -13,8 +13,11 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
+  host: <%= ENV.fetch("DB_HOST") { 'localhost' } %>
+  username: <%= ENV.fetch("DB_USERNAME") { 'root' } %>
+  password: <%= ENV.fetch("DB_PASSWORD") { '' } %>
+  socket: /tmp/mysql.sock
+
 
 development:
   <<: *default
@@ -25,7 +28,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  url: <%= ENV['DATABASE_TEST_URL'] %>
+  url: herokuci_sandbox_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
