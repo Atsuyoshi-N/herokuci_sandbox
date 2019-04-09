@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-scenario 'GENERATED' do
+feature 'GENERATED' do
   visit '/messages'
 
   click_link 'New Message'
