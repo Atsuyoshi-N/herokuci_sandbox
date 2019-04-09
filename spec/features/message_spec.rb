@@ -1,8 +1,13 @@
 require 'rails_helper'
 
-feature 'topページの表示' do
-  scenario 'Messagesの表示を確認する' do
-    visit root_path
-    expect(page).to have_content 'Messages'
-  end
+scenario 'GENERATED' do
+  visit '/messages'
+
+  click_link 'New Message'
+
+  fill_in 'Title', with: 'hogehoge'
+  fill_in 'Body', with: 'fugafuga'
+  click_button 'Create Message'
 end
+
+
