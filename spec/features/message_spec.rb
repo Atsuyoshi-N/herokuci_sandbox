@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'GENERATED' do
-  scenario 'メッセージを投稿する' do
+  scenario 'メッセージを投稿する', js: true do
     visit '/messages'
 
     click_link 'New Message'
