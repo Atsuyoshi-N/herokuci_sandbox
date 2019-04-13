@@ -96,17 +96,17 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
 
-Capybara.configure do |capybara_config|
-  capybara_config.default_driver = :selenium_chrome_headless
-  capybara_config.default_max_wait_time = 10
+options = {}
+options[:args] = ['headless', 'disable-gpu', 'window-size=1280,1024']
+options[:binary] = chrome_bin if chrome_bin
+
+Capybara.register_driver :headless_chrome do |app|
+  Capybara::Selenium::Driver.new(app,
+                                 browser: :chrome,
+                                 options: Selenium::WebDriver::Chrome::Options.new(options)
+                                )
 end
 
-Capybara.register_driver :selenium_chrome_headless do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--headless')
-  options.add_argument('--disable-gpu')
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-end
-
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :headless_chrome
