@@ -9,15 +9,13 @@
 # And be sure to use new-style password hashing:
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
-default: &default
-  adapter: mysql2
-  encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("DB_HOST") { 'localhost' } %>
 
 development:
-  <<: *default
+  adapter: mysql2
+  encoding: utf8
   database: herokuci_sandbox_development
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST") { 'localhost' } %>
   username: root
   password:
 
@@ -30,8 +28,7 @@ test:
   # username: root
   # password:
   adapter: postgresql
-  encoding: unicode
-  url: <%= ENV['DATABASE_URL'] %>
+  database: <%= ENV['DATABASE_URL'] { 'postgresql://localhost/herokuci_sandbox_test?user=root' } %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -53,7 +50,10 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST") { 'localhost' } %>
   database: herokuci_sandbox_production
   username: herokuci_sandbox
   password: <%= ENV['HEROKUCI_SANDBOX_DATABASE_PASSWORD'] %>
